@@ -1,8 +1,9 @@
-#include <QCoreApplication>
+#include <iostream>
+#include <agenda.h>
 
-int main(int argc, char *argv[])
-{
-    QCoreApplication a(argc, argv);
+using namespace std;
 
-    return a.exec();
+int main() {
+    // ...
+    return 0;
 }
