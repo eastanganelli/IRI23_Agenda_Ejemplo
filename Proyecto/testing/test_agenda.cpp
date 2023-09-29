@@ -3,7 +3,7 @@
 
 TEST_CASE("Agenda Agregacion") {
     sAgenda* miAgenda = new sAgenda;
-    REQUIRE(miAgenda != nullptr); // Puntero de Agenda es nullptr?
+    REQUIRE(miAgenda != nullptr); // Puntero de Agenda es nullptr? SI o NO
 
     miAgenda->CantMaxima = 6;
     miAgenda->CantContactos = 0;
@@ -23,10 +23,11 @@ TEST_CASE("Agenda Agregacion") {
         REQUIRE(miAgenda->CantContactos == 1);
     }
 
-    delete[] miAgenda->misContactos;
+    delete[] miAgenda->misContactos; // REQUERIDO
     delete miAgenda;
-};
+}
 
+//Asumimos que la superior funciona
 TEST_CASE("Agenda Modificacion") {
     sAgenda* miAgenda = new sAgenda;
     REQUIRE(miAgenda != nullptr); // Puntero de Agenda es nullptr?
@@ -44,6 +45,8 @@ TEST_CASE("Agenda Modificacion") {
     agregarContacto(miAgenda, {"Pedro", "Rodriguez", "Avenida 890", "pedro@example.com", "999-888-7777", {10, 4, 1987},  eGrupo::FAMILIA});
     agregarContacto(miAgenda, {"Laura", "Lopez", "Plaza 123", "laura@example.com", "333-444-5555", {3, 9, 1995},  eGrupo::TRABAJO});
 
+    CHECK(miAgenda->CantContactos == 6); // NO ES CRITICO
+
     SECTION("Modificando el 2do elemento") {
         eUpdContacto res = actualizarContacto(miAgenda, {"Maria", "Gonzalez", "Avenida 456", "maria@example.com", "489-3454-2345", {15, 11, 1992},  eGrupo::FAMILIA});
         REQUIRE(res == eUpdContacto::ExitoModificar);
@@ -56,7 +59,7 @@ TEST_CASE("Agenda Modificacion") {
 
     delete[] miAgenda->misContactos;
     delete miAgenda;
-};
+}
 
 TEST_CASE("Agenda Eliminacion") {
     sAgenda* miAgenda = new sAgenda;
@@ -84,7 +87,7 @@ TEST_CASE("Agenda Eliminacion") {
         REQUIRE(res == eRmContacto::ErrRmNomApe);
     }
 
-    SECTION("Eliminando el 9noelemento") {
+    SECTION("Eliminando el 9no elemento") {
         eRmContacto res = removerContacto(miAgenda, 8);
         REQUIRE(res == eRmContacto::ErrRmIndex);
     }
@@ -96,7 +99,7 @@ TEST_CASE("Agenda Eliminacion") {
 
     delete[] miAgenda->misContactos;
     delete miAgenda;
-};
+}
 
 TEST_CASE("Agenda Busqueda") {
     sAgenda* miAgenda = new sAgenda;
@@ -133,4 +136,46 @@ TEST_CASE("Agenda Busqueda") {
 
     delete[] miAgenda->misContactos;
     delete miAgenda;
-};
+}
+
+TEST_CASE("Agenda Busqueda") {
+    sAgenda* miAgenda = new sAgenda;
+    REQUIRE(miAgenda != nullptr); // Puntero de Agenda es nullptr?
+
+    miAgenda->CantMaxima = 6;
+    miAgenda->CantContactos = 0;
+    miAgenda->misContactos = new sContacto[miAgenda->CantMaxima];
+
+    REQUIRE(miAgenda->misContactos != nullptr);
+
+    agregarContacto(miAgenda, {"Juan", "Perez", "Calle 123", "juan@example.com", "123-456-7890", {5, 3, 1985},  eGrupo::AMIGO});
+    agregarContacto(miAgenda, {"Maria", "Gonzalez", "Avenida 456", "maria@example.com", "987-654-3210", {15, 11, 1992},  eGrupo::FAMILIA});
+    agregarContacto(miAgenda, {"Carlos", "Lopez", "Plaza 789", "carlos@example.com", "555-123-4567", {8, 7, 1980},  eGrupo::TRABAJO});
+
+    SECTION("Ordenar Ex 1") {
+        std::string Apellidos_Ordenados[3] = { "Gonzalez", "Lopez", "Perez" };
+
+        OrdenarPorApellido(miAgenda);
+
+        for(u_int i = 0; i < 3; i++) {
+            CHECK(miAgenda->misContactos[i].Apellido == Apellidos_Ordenados[i]);
+        }
+    }
+
+    agregarContacto(miAgenda, {"Ana", "Martinez", "Calle 567", "ana@example.com", "111-222-3333", {20, 12, 1998},  eGrupo::AMIGO});
+    agregarContacto(miAgenda, {"Pedro", "Rodriguez", "Avenida 890", "pedro@example.com", "999-888-7777", {10, 4, 1987},  eGrupo::FAMILIA});
+    agregarContacto(miAgenda, {"Laura", "Lopez", "Plaza 123", "laura@example.com", "333-444-5555", {3, 9, 1995},  eGrupo::TRABAJO});
+
+    SECTION("Ordenar Ex 2") {
+        std::string Apellidos_Ordenados[6] = { "Martinez", "Gonzalez", "Lopez", "Lopez", "Rodriguez", "Perez" };
+
+        OrdenarPorApellido(miAgenda);
+
+        for(u_int i = 0; i < 6; i++) {
+            CHECK(miAgenda->misContactos[i].Apellido == Apellidos_Ordenados[i]);
+        }
+    }
+
+    delete[] miAgenda->misContactos;
+    delete miAgenda;
+}

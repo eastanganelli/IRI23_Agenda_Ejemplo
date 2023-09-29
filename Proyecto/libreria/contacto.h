@@ -4,7 +4,7 @@
 #include "encabezados.h"
 
 enum Grupo { NINGUNO, FAMILIA, AMIGO, TRABAJO, UNIVERSIDAD };
-typedef Grupo eGrupo;
+typedef enum Grupo eGrupo;
 
 struct Fecha {
     u_int dia, mes, anyo;

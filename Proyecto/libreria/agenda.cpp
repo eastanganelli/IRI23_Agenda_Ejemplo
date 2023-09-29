@@ -1,4 +1,4 @@
-#include "agenda.h"
+ #include "agenda.h"
 
 bool hayEspacio(sAgenda* miAgenda) {
     return (miAgenda->CantMaxima - miAgenda->CantContactos > 0);
@@ -14,6 +14,7 @@ eAgrContacto agregarContacto(sAgenda* miAgenda, sContacto miContacto) {
 
     miAgenda->CantContactos++;
     miAgenda->misContactos[miAgenda->CantContactos - 1] = miContacto;
+    // miAgenda->*(misContactos + i )
     return eAgrContacto::ExitoAgregar;
 }
 
@@ -32,7 +33,7 @@ eUpdContacto actualizarContacto(sAgenda* miAgenda, sContacto miContacto) {
         }
         if (aux == ultimo)
             break;
-        aux++;
+        aux++; // aux = aux + 1 o aux+= 1
     }
     return eUpdContacto::ErrUpdContacto;
 }
@@ -130,3 +131,29 @@ sContacto buscarContacto(sAgenda* miAgenda, str valorBusqueda) {
 sContacto buscarContacto(sAgenda* miAgenda, u_int indexContacto) {
     return indexContacto >= miAgenda->CantContactos - 1 ? ContactoNulo : miAgenda->misContactos[indexContacto];
 }
+
+void OrdenarPorApellido(sAgenda* miAgenda) {
+    sContacto* ultimoContacto = miAgenda->misContactos + miAgenda->CantContactos - 1;
+
+    for(u_int i = 0; i < miAgenda->CantContactos - 1; i++) {
+        sContacto& Actual = miAgenda->misContactos[i]; // *(miAgenda->misContactos + i)
+        char Ape1 = (Actual.Apellido[0] >= 'A' && Actual.Apellido[0] <= 'Z') ?
+                        Actual.Apellido[0] + ('a' - 'A') : Actual.Apellido[0];
+        for(sContacto* miContacto = miAgenda->misContactos; miContacto == ultimoContacto; miContacto++) {
+            char Ape2 = (miContacto->Apellido[0] >= 'A' && miContacto->Apellido[0] <= 'Z') ?
+                            miContacto->Apellido[0] + ('a' - 'A') : miContacto->Apellido[0];
+
+            if(Ape1 > Ape2) {
+                sContacto aux = Actual;
+                Actual = *miContacto;
+                *miContacto = aux;
+            }
+        }
+    }
+}
+
+
+
+
+
+

@@ -1,3 +1,4 @@
+
 #ifndef AGENDA_H
 #define AGENDA_H
 
@@ -41,5 +42,13 @@ eRmContacto removerContacto(sAgenda* miAgenda, u_int indexContacto);
 /* Funciones de busqueda de contacto */
 sContacto buscarContacto(sAgenda* miAgenda, str valorBusqueda);
 sContacto buscarContacto(sAgenda* miAgenda, u_int indexContacto);
+void OrdenarPorApellido(sAgenda* miAgenda);
+sContacto* DevolverXGrupo(sAgenda miAgenda, eGrupo Grupo);
 
 #endif // AGENDA_H
+
+
+
+
+
+
