@@ -4,6 +4,7 @@
 #include "encabezados.h"
 
 enum Grupo { NINGUNO, FAMILIA, AMIGO, TRABAJO, UNIVERSIDAD };
+const str Grupos[5] = { "NINGUNO", "FAMILIA", "AMIGO", "TRABAJO", "UNIVERSIDAD" };
 typedef enum Grupo eGrupo;
 
 struct Fecha {
@@ -16,6 +17,21 @@ struct Contacto {
     eGrupo Grupo;
 }; typedef struct Contacto sContacto;
 
+struct Agrupar {
+    sContacto* contactos;
+    u_int tam, actual;
+    str Grupito;
+}; typedef struct Agrupar sAgrupar;
+
 sContacto crearContacto(str Nombre, str Apellido, sFecha FacNac, str Telefono, str Correo);
+sContacto* resizeContactos(sContacto* miLista, u_int tam, u_int nuevoTam);
+void resizeContactos(sContacto** miLista, u_int tam, u_int nuevoTam);
 
 #endif // CONTACTO_H
+
+
+
+
+
+
+

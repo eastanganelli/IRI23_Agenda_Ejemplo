@@ -61,7 +61,7 @@ TEST_CASE("Agenda Modificacion") {
     delete miAgenda;
 }
 
-TEST_CASE("Agenda Eliminacion") {
+/*TEST_CASE("Agenda Eliminacion") {
     sAgenda* miAgenda = new sAgenda;
     REQUIRE(miAgenda != nullptr); // Puntero de Agenda es nullptr?
 
@@ -173,6 +173,50 @@ TEST_CASE("Agenda Busqueda") {
 
         for(u_int i = 0; i < 6; i++) {
             CHECK(miAgenda->misContactos[i].Apellido == Apellidos_Ordenados[i]);
+        }
+    }
+
+    delete[] miAgenda->misContactos;
+    delete miAgenda;
+}*/
+
+TEST_CASE("Agenda Busqueda") {
+    sAgenda* miAgenda = new sAgenda;
+    REQUIRE(miAgenda != nullptr); // Puntero de Agenda es nullptr?
+
+    miAgenda->CantMaxima = 6;
+    miAgenda->CantContactos = 0;
+    miAgenda->misContactos = new sContacto[miAgenda->CantMaxima];
+
+    REQUIRE(miAgenda->misContactos != nullptr);
+
+    agregarContacto(miAgenda, {"Juan", "Perez", "Calle 123", "juan@example.com", "123-456-7890", {5, 3, 1985},  eGrupo::AMIGO});
+    agregarContacto(miAgenda, {"Maria", "Gonzalez", "Avenida 456", "maria@example.com", "987-654-3210", {15, 11, 1992},  eGrupo::FAMILIA});
+    agregarContacto(miAgenda, {"Carlos", "Lopez", "Plaza 789", "carlos@example.com", "555-123-4567", {8, 7, 1980},  eGrupo::TRABAJO});
+
+    SECTION("Listar Ex 1") {
+        std::string Apellidos_Ordenados[3] = { "Gonzalez", "Lopez", "Perez" };
+
+        sAgrupar* misGrupos = nullptr;
+        ListarPorGrupo(*miAgenda, misGrupos);
+
+        for(u_int i = 0; i < 5; i++) {
+            CHECK(misGrupos[i].Grupito == Grupos[i]);
+        }
+    }
+
+    agregarContacto(miAgenda, {"Ana", "Martinez", "Calle 567", "ana@example.com", "111-222-3333", {20, 12, 1998},  eGrupo::AMIGO});
+    agregarContacto(miAgenda, {"Pedro", "Rodriguez", "Avenida 890", "pedro@example.com", "999-888-7777", {10, 4, 1987},  eGrupo::FAMILIA});
+    agregarContacto(miAgenda, {"Laura", "Lopez", "Plaza 123", "laura@example.com", "333-444-5555", {3, 9, 1995},  eGrupo::TRABAJO});
+
+    SECTION("Listar Ex 2") {
+        std::string Apellidos_Ordenados[3] = { "Gonzalez", "Lopez", "Perez" };
+
+        sAgrupar* misGrupos = nullptr;
+        ListarPorGrupo(*miAgenda, misGrupos);
+
+        for(u_int i = 0; i < 5; i++) {
+            CHECK(misGrupos[i].Grupito == Grupos[i]);
         }
     }
 

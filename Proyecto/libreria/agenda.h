@@ -29,6 +29,7 @@ bool hayEspacio(sAgenda* miAgenda);
 
 /* Funcion de agregar contacto */
 eAgrContacto agregarContacto(sAgenda* miAgenda, sContacto miContacto);
+eAgrContacto agregarOrdenado(sAgenda* miAgenda, sContacto miContacto);
 
 /* Funciones de actualización del contacto */
 eUpdContacto actualizarContacto(sAgenda* miAgenda, sContacto miContacto);
@@ -43,12 +44,10 @@ eRmContacto removerContacto(sAgenda* miAgenda, u_int indexContacto);
 sContacto buscarContacto(sAgenda* miAgenda, str valorBusqueda);
 sContacto buscarContacto(sAgenda* miAgenda, u_int indexContacto);
 void OrdenarPorApellido(sAgenda* miAgenda);
-sContacto* DevolverXGrupo(sAgenda miAgenda, eGrupo Grupo);
+sContacto* DevolverXGrupo(sAgenda miAgenda, eGrupo Grupo); //
+void ListarPorGrupo(sAgenda miAgenda, sAgrupar*& Agrupados);
 
 #endif // AGENDA_H
-
-
-
 
 
 

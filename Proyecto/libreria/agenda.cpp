@@ -8,9 +8,20 @@ bool hayEspacio(sAgenda* miAgenda) {
  * @brief Función agregar contacto a la agenda
  * @return Error: ErrAgrEspacio, sino ExitoAgregar
  */
-eAgrContacto agregarContacto(sAgenda* miAgenda, sContacto miContacto) {
+/*eAgrContacto agregarContacto(sAgenda* miAgenda, sContacto miContacto) {
     if (!hayEspacio(miAgenda))
         return eAgrContacto::ErrAgrEspacio;
+
+    miAgenda->CantContactos++;
+    miAgenda->misContactos[miAgenda->CantContactos - 1] = miContacto;
+    // miAgenda->*(misContactos + i )
+    return eAgrContacto::ExitoAgregar;
+}*/
+
+eAgrContacto agregarContacto(sAgenda* miAgenda, sContacto miContacto) {
+    if (!hayEspacio(miAgenda)) {
+
+    }
 
     miAgenda->CantContactos++;
     miAgenda->misContactos[miAgenda->CantContactos - 1] = miContacto;
@@ -151,6 +162,34 @@ void OrdenarPorApellido(sAgenda* miAgenda) {
         }
     }
 }
+
+void ListarPorGrupo(sAgenda miAgenda, sAgrupar*& Agrupados) {
+    Agrupados = new sAgrupar[5];
+    for(u_int i = 0; i < eGrupo::UNIVERSIDAD; i++) {
+        Agrupados[i].contactos = new sContacto[6];
+        Agrupados[i].tam = 6;
+        Agrupados[i].actual = 0;
+        Agrupados[i].Grupito = Grupos[i];
+    }
+    sContacto* Ultimo = miAgenda.misContactos + miAgenda.CantContactos;
+
+    for(u_int i = 0; i < eGrupo::UNIVERSIDAD; i++) {
+        for(sContacto* miContacto = miAgenda.misContactos; miContacto != Ultimo; miContacto++) {
+            if(miContacto->Grupo == i) {
+                if(Agrupados[i].actual == Agrupados[i].tam) {
+                    Agrupados[i].contactos = resizeContactos(Agrupados[i].contactos, Agrupados[i].tam, Agrupados[i].tam + BLK);
+                    Agrupados[i].tam += BLK;
+                }
+
+                Agrupados[i].contactos[Agrupados[i].actual] = *miContacto;
+                Agrupados[i].actual++;
+            }
+        }
+    }
+}
+
+
+
 
 
 

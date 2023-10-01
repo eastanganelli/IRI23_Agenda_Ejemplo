@@ -3,6 +3,8 @@
 
 #include <string>
 
+#define BLK 6
+
 typedef std::string str;
 typedef unsigned int u_int;
 
