@@ -11,10 +11,12 @@ CONFIG += c++17
 
 SOURCES += \
     agenda.cpp \
+    archivos.cpp \
     contacto.cpp
 
 HEADERS += \
     agenda.h \
+    archivos.h \
     contacto.h \
     encabezados.h \
     libreria_global.h
