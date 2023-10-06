@@ -3,6 +3,11 @@
 
 #include "encabezados.h"
 
+typedef struct sGrupo {
+    unsigned int id;
+    std::string nombre;
+} sGrupo;
+
 enum Grupo { NINGUNO, FAMILIA, AMIGO, TRABAJO, UNIVERSIDAD };
 const str Grupos[5] = { "NINGUNO", "FAMILIA", "AMIGO", "TRABAJO", "UNIVERSIDAD" };
 typedef enum Grupo eGrupo;

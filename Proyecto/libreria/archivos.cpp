@@ -1,36 +1,44 @@
 #include "archivos.h"
 
-eCodArchivos leerArchivoAgenda(sAgenda *agenda){
-
-    //Abre el archivo en modo binario y de lectura.
-    std::fstream archi("Agenda.dat", std::ios::in | std::ios::binary);
-
+eCodArchivos leerArchivoAgenda(std::fstream	*archi, sAgenda *agenda){
     // Comprueba que el archivo se pudo abrir.
-    if(!archi.is_open())
+    if(!archi->is_open())
         return eCodArchivos::ErrorApertura;
 
     // Lee la estructura de la agenda completa.
-    archi.read((char*)agenda, sizeof(sAgenda));
+    archi->read((char*)agenda, sizeof(sAgenda));
 
-    if(!archi){
-        archi.close();
+    if(!*archi){
         return eCodArchivos::ErrorEscritura;
     }
-    // Cierra el archivo.
-    archi.close();
 
     return eCodArchivos::ExitoOperacion;
 }
 
-eCodArchivos escribirArchivoAgenda(sAgenda *agenda){
-    std::fstream archi("Agenda.dat", std::ios::out | std::ios::binary | std::ios::trunc);
+eCodArchivos escribirArchivoAgenda(std::fstream	*archi, sAgenda *agenda){
 
-    if(!archi.is_open())
+    if(!archi->is_open())
         return eCodArchivos::ErrorApertura;
 
-    archi.write((char*)agenda, sizeof(sAgenda));
+    archi->write((char*)agenda, sizeof(sAgenda));
 
-    archi.close();
+    return eCodArchivos::ExitoOperacion;
+}
+
+eCodArchivos leerArchivoGrupos(std::fstream *archi, sGrupo *grupos){
+    unsigned int auxId;
+    std::string auxNombre;
+    char coma;
+    int i=0;
+
+    if(!archi->is_open())
+        return eCodArchivos::ErrorApertura;
+
+    while(*archi>>auxId>>coma>>auxNombre){
+        (grupos+i)->id=auxId;
+        (grupos+i)->nombre=auxNombre;
+        i++;
+    }
 
     return eCodArchivos::ExitoOperacion;
 }
